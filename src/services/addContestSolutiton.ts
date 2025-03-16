@@ -17,7 +17,7 @@ export async function addContestSolution(video: Video) {
     return;
   }
 
-  console.log(trimmedTitle);
+  //console.log(trimmedTitle);
 
   // Search for a contest where 'name' **includes** the trimmed title
   const contest = await Contest.findOne({
@@ -25,7 +25,7 @@ export async function addContestSolution(video: Video) {
   });
 
   if (!contest) {
-    console.error(`No contest found for: ${trimmedTitle}`);
+    //console.error(`No contest found for: ${trimmedTitle}`);
     return;
   }
 
@@ -52,7 +52,7 @@ export async function addContestSolution(video: Video) {
       };
       // console.log(solutionBody)
       const contestSolution = await Solution.create(solutionBody);
-      console.log(`Added solution for contest: ${trimmedTitle}`);
+      //console.log(`Added solution for contest: ${trimmedTitle}`);
     }
     return "Solution Exists";
   } catch (err) {
