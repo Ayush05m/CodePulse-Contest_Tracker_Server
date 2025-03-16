@@ -7,7 +7,6 @@
     "start": "nodemon ./src/server.ts",
     "built": "tsc",
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
