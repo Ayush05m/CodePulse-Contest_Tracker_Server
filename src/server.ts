@@ -15,29 +15,20 @@ import { clearCache } from "./services/cacheServices";
 
 dotenv.config();
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:5174",
-];
-
-if (process.env.CLIENT_URL) {
-  allowedOrigins.push(process.env.CLIENT_URL);
-}
-
 const app = express();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: true, // Reflects the request origin
-    credentials: true,
+    origin: "*", // Allows all origins
+    credentials: true, // Note: '*' cannot be used if credentials are enabled
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     exposedHeaders: ["Set-Cookie"],
-    optionsSuccessStatus: 200,
   })
 );
+
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
