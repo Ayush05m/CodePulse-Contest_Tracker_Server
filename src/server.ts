@@ -30,9 +30,9 @@ app.use(
 );
 
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+// if (process.env.NODE_ENV === "development") {
+app.use(morgan("dev"));
+// }
 
 // routes
 app.use("/api/auth", authRoutes);
