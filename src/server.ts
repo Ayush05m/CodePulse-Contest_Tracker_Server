@@ -22,7 +22,6 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: "*", // Allows all origins
-    credentials: true, // Note: '*' cannot be used if credentials are enabled
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     exposedHeaders: ["Set-Cookie"],
