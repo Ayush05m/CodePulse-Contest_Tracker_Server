@@ -341,7 +341,7 @@ export async function fetchCodeChefContests(): Promise<SelfContest[]> {
         };
         return contestData;
       });
-    console.log(upcomingContests);
+    // console.log(upcomingContests);
 
     response = await axios.get(
       "https://www.codechef.com/api/list/contests/present"

@@ -1,8 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import Contest from "../models/Contest";
-import {
-  SelfContest,
-} from "../services/contestServices";
+import { SelfContest } from "../services/contestServices";
 import asyncHandler from "../middleware/async";
 import ErrorResponse from "../utils/errorResponse";
 import { getCachedContests } from "../services/cacheServices";
@@ -15,7 +13,7 @@ export const getAllContests = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     console.log(req.query);
     // Build query
-    const { platform, status, search } = req.query;
+    const { platform, status, search, sort } = req.query;
 
     const query: any = {};
     const page = Number.parseInt(req.query.page as string, 10) || 1;
@@ -26,17 +24,27 @@ export const getAllContests = asyncHandler(
     }
 
     if (search) {
-      query.name = { $regex: search, $options: "i" };
+      query.search = { $regex: search, $options: "i" };
       cachedContests = cachedContests.filter((contest) =>
         contest.name.toLowerCase().includes(search.toString())
       );
     }
-    if (platform?.length) {
-      query.platform = { $regex: platform, $options: "i" };
-      cachedContests = cachedContests.filter(
-        (contest) => contest.platform === platform
+
+    // if (sort) {
+    //   cachedContests.sort((a, b) => {
+    //     const dateA = new Date(a.startTime).getTime();
+    //     const dateB = new Date(b.startTime).getTime();
+    //     return sort === "start_asc" ? dateA - dateB : dateB - dateA;
+    //   });
+    // }
+
+    if (Array.isArray(platform) && platform.length) {
+      query.platform = { $in: platform }; // MongoDB query for multiple platforms
+      cachedContests = cachedContests.filter((contest) =>
+        platform.includes(contest.platform)
       );
     }
+
     if (status === "upcoming") {
       return res.status(200).json({
         success: true,

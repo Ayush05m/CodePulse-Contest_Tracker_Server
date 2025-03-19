@@ -1,11 +1,11 @@
-import mongoose, { type Document, Schema } from "mongoose"
+import mongoose, { type Document, Schema } from "mongoose";
 
 export interface IBookmark extends Document {
-  user: mongoose.Types.ObjectId
-  contest: mongoose.Types.ObjectId
-  notes?: string
-  createdAt: Date
-  updatedAt: Date
+  user: mongoose.Types.ObjectId;
+  contest: mongoose.Types.ObjectId;
+  notes?: string;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const BookmarkSchema: Schema = new Schema(
@@ -15,10 +15,21 @@ const BookmarkSchema: Schema = new Schema(
       ref: "User",
       required: [true, "User ID is required"],
     },
+    type: {
+      type: String,
+      // required: [true, "Bookmark type is required"],
+      enum: {
+        values: ["contest", "solution"],
+        message: "{VALUE} is not a valid for bookmarking",
+      },
+    },
     contest: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Contest",
-      required: [true, "Contest ID is required"],
+    },
+    solution: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Solution",
     },
     notes: {
       type: String,
@@ -28,11 +39,10 @@ const BookmarkSchema: Schema = new Schema(
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
 // Compound index to ensure a user can bookmark a contest only once
-BookmarkSchema.index({ user: 1, contest: 1 }, { unique: true })
+BookmarkSchema.index({ user: 1, contest: 1 }, { unique: true });
 
-export default mongoose.model<IBookmark>("Bookmark", BookmarkSchema)
-
+export default mongoose.model<IBookmark>("Bookmark", BookmarkSchema);

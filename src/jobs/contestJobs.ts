@@ -9,7 +9,7 @@ async function fetchAndUpdateContests(): Promise<void> {
 
   console.log("✅ Contests updated");
 
-  console.log("incoming ready for cache: ", contests);
+  // console.log("incoming ready for cache: ", contests);
   const upcomingContests = contests.filter((c) => c.startTime > new Date());
   await cacheUpcomingContests(upcomingContests);
 }

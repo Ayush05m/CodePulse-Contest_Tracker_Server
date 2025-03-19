@@ -35,14 +35,11 @@ export const login = asyncHandler(
       );
     }
 
-    // Check for user
     const user = await User.findOne({ email }).select("+password");
-
     if (!user) {
       return next(new ErrorResponse("Invalid credentials", 401));
     }
 
-    // Check if password matches
     const isMatch = await user.matchPassword(password);
 
     if (!isMatch) {
@@ -88,6 +85,8 @@ export const logout = asyncHandler(
 const sendTokenResponse = (user: any, statusCode: number, res: Response) => {
   // Create token
   const token = user.getSignedJwtToken();
+  
+  console.log(token)
 
   const options = {
     expires: new Date(
